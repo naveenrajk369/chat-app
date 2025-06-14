@@ -16,15 +16,11 @@ import { Toaster } from "react-hot-toast";
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth, onlineUsers } = useAuthStore();
-  const { theme } = useThemeStore();
-
-  console.log({ onlineUsers });
+  const { theme, fontStyle } = useThemeStore(); // ⬅️ Include fontStyle from store
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
-
-  console.log({ authUser });
 
   if (isCheckingAuth && !authUser)
     return (
@@ -34,7 +30,7 @@ const App = () => {
     );
 
   return (
-    <div data-theme={theme}>
+    <div data-theme={theme} className={fontStyle}> {/* ⬅️ Apply font style globally */}
       <Navbar />
 
       <Routes>
@@ -49,4 +45,5 @@ const App = () => {
     </div>
   );
 };
+
 export default App;
