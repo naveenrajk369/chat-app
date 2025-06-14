@@ -7,12 +7,19 @@ const PREVIEW_MESSAGES = [
   { id: 2, content: "I'm doing great! Just working on some new features.", isSent: true },
 ];
 
+const FONT_STYLES = [
+  { name: "Sans", value: "font-sans" },
+  { name: "Serif", value: "font-serif" },
+  { name: "Mono", value: "font-mono" },
+];
+
 const SettingsPage = () => {
-  const { theme, setTheme } = useThemeStore();
+  const { theme, setTheme, fontStyle, setFontStyle } = useThemeStore();
 
   return (
     <div className="h-screen container mx-auto px-4 pt-20 max-w-5xl">
       <div className="space-y-6">
+        {/* Theme Selection */}
         <div className="flex flex-col gap-1">
           <h2 className="text-lg font-semibold">Theme</h2>
           <p className="text-sm text-base-content/70">Choose a theme for your chat interface</p>
@@ -22,10 +29,8 @@ const SettingsPage = () => {
           {THEMES.map((t) => (
             <button
               key={t}
-              className={`
-                group flex flex-col items-center gap-1.5 p-2 rounded-lg transition-colors
-                ${theme === t ? "bg-base-200" : "hover:bg-base-200/50"}
-              `}
+              className={`group flex flex-col items-center gap-1.5 p-2 rounded-lg transition-colors
+                ${theme === t ? "bg-base-200" : "hover:bg-base-200/50"}`}
               onClick={() => setTheme(t)}
             >
               <div className="relative h-8 w-full rounded-md overflow-hidden" data-theme={t}>
@@ -43,12 +48,28 @@ const SettingsPage = () => {
           ))}
         </div>
 
+        {/* Font Style Selector */}
+        <div className="flex flex-col gap-1 mt-6">
+          <h2 className="text-lg font-semibold">Font Style</h2>
+          <p className="text-sm text-base-content/70">Choose a font style for chat messages</p>
+          <div className="flex gap-3 mt-2">
+            {FONT_STYLES.map((style) => (
+              <button
+                key={style.value}
+                className={`btn btn-sm ${fontStyle === style.value ? "btn-primary" : "btn-outline"}`}
+                onClick={() => setFontStyle(style.value)}
+              >
+                {style.name}
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* Preview Section */}
         <h3 className="text-lg font-semibold mb-3">Preview</h3>
         <div className="rounded-xl border border-base-300 overflow-hidden bg-base-100 shadow-lg">
           <div className="p-4 bg-base-200">
-            <div className="max-w-lg mx-auto">
-              {/* Mock Chat UI */}
+            <div className={`max-w-lg mx-auto ${fontStyle}`}>
               <div className="bg-base-100 rounded-xl shadow-sm overflow-hidden">
                 {/* Chat Header */}
                 <div className="px-4 py-3 border-b border-base-300 bg-base-100">
@@ -71,17 +92,19 @@ const SettingsPage = () => {
                       className={`flex ${message.isSent ? "justify-end" : "justify-start"}`}
                     >
                       <div
-                        className={`
-                          max-w-[80%] rounded-xl p-3 shadow-sm
-                          ${message.isSent ? "bg-primary text-primary-content" : "bg-base-200"}
-                        `}
+                        className={`max-w-[80%] rounded-xl p-3 shadow-sm ${
+                          message.isSent
+                            ? "bg-primary text-primary-content"
+                            : "bg-base-200 text-base-content"
+                        }`}
                       >
                         <p className="text-sm">{message.content}</p>
                         <p
-                          className={`
-                            text-[10px] mt-1.5
-                            ${message.isSent ? "text-primary-content/70" : "text-base-content/70"}
-                          `}
+                          className={`text-[10px] mt-1.5 ${
+                            message.isSent
+                              ? "text-primary-content/70"
+                              : "text-base-content/70"
+                          }`}
                         >
                           12:00 PM
                         </p>
@@ -109,8 +132,9 @@ const SettingsPage = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> 
     </div>
   );
 };
+
 export default SettingsPage;
