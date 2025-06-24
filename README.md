@@ -24,7 +24,7 @@ CLOUDINARY_API_KEY=...
 CLOUDINARY_API_SECRET=...
 
 NODE_ENV=development
-#for MailTrap
+
 EMAIL_HOST=smtp.mailtrap.io
 EMAIL_PORT=587
 EMAIL_USER=your_mailtrap_username
